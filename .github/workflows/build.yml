@@ -32,18 +32,16 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     - name: Prepare directory
-      shell: pwsh
       run: |
-        if (-not (Test-Path -Path "PDMSystem/CI")) {
-          New-Item -ItemType Directory -Force -Path "PDMSystem/CI"
-        }
-        Get-ChildItem -Path "PDMSystem/CI"
+        if [ ! -d "PDMSystem/CI" ]; then
+          mkdir -p PDMSystem/CI
+        fi
+        ls -la PDMSystem/CI
 
     - name: Copy binaries
-      shell: pwsh
       run: |
-        Copy-Item -Path "./CI/*" -Destination "PDMSystem/CI" -Recurse -Force
-        Get-ChildItem -Path "PDMSystem/CI"
+        cp -r ./CI/* PDMSystem/CI/
+        ls -la PDMSystem/CI
 
     - name: Commit binaries
       if: success()
@@ -55,3 +53,5 @@ jobs:
         git add PDMSystem/CI
         git commit -m "Add build output"
         git push origin main
+
+
