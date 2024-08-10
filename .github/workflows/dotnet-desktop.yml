@@ -1,12 +1,13 @@
-
 name: CI
+run-name: Pipeline CI runned by ${{ github.actor }} in ${{ github.run_number }}
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  workflow_dispatch:
+
 
 jobs:
   build:
