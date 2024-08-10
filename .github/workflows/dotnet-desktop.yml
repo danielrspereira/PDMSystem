@@ -1,5 +1,5 @@
 name: CI
-run-name: Pipeline CI runned by ${{ github.actor }} in ${{ github.run_number }}
+run-name: Pipeline CI runned by ${{ github.actor }} Run # ${{ github.run_number }}
 
 on:
   workflow_dispatch:
@@ -8,14 +8,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
-
 jobs:
   build:
-    runs-on: windows-latest
-
-    env:
-      Solution_Name: PDMSystem.sln                        
-      Test_Project_Path: PDMSystem\PDMSystem.csproj                
+    runs-on: windows-latest            
 
     steps:
     - name: Checkout
@@ -33,11 +28,6 @@ jobs:
     - name: Build the solution
       run: msbuild PDMSystem.sln /p:Configuration=Release
   
-  release:
-    runs-on: windows-latest
-    needs: [build]
-
-    steps:
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
